@@ -1,4 +1,4 @@
-const HtmlWebpackPlugin  = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   output: {
@@ -9,7 +9,7 @@ module.exports = {
       template: 'src/index.html'
     })
   ],
-  module:{
+  module: {
     rules: [
       {
         test: /\.js$/,
