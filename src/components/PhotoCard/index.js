@@ -9,34 +9,40 @@ export const PhotoCard = ({ id, likes = 0, src = DEFAULT_IMAE }) => {
   const ref = useRef(null)
 
   useEffect(() => {
-    const observer = new window.IntersectionObserver(function (entries) {
-      const { isIntersecting } = entries[0]
-      console.log(isIntersecting)
+    Promise.resolve(
+      typeof window.IntersectionObserver !== 'undefined'
+        ? window.IntersectionObserver
+        : import ('intersection-observer')
+    ).then(() => {
+      const observer = new window.IntersectionObserver(function (entries) {
+        const { isIntersecting } = entries[0]
+        console.log(isIntersecting)
 
-      if (isIntersecting) {
-        setShow(true)
-        observer.disconnect()
-      }
+        if (isIntersecting) {
+          setShow(true)
+          observer.disconnect()
+        }
+      })
+
+      observer.observe(ref.current)
     })
-
-    observer.observe(ref.current)
   }, [ref])
 
   return (
     <Article ref={ref}>
       {
         show && (
-         <>
-           <a href={`/detail/${id}`}>
-             <ImgWrapper>
-               <Img src={src} />
-             </ImgWrapper>
-           </a>
+          <>
+            <a href={`/detail/${id}`}>
+              <ImgWrapper>
+                <Img src={src} />
+              </ImgWrapper>
+            </a>
 
-           <Button>
-             <MdFavoriteBorder size='32px' /> {likes} likes!
-           </Button>
-         </>
+            <Button>
+              <MdFavoriteBorder size='32px' /> {likes} likes!
+            </Button>
+          </>
         )
       }
     </Article>
